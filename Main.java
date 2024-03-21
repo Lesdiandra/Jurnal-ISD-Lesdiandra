@@ -1,101 +1,67 @@
-import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Iterator;
-
-interface Operation<T> {
-    void add(T item);
-    void remove(String code);
-    void edit(String code, T newItem);
-    void display();
-}
-
-class ATK {
-    private String code;
-    private String jenis;
-    private String nama;
-    private int stok;
-
-    public ATK(String code, String jenis, String nama, int stok) {
-        this.code = code;
-        this.jenis = jenis;
-        this.nama = nama;
-        this.stok = stok;
-    }
-
-    @Override
-    public String toString() {
-        return "Kode: " + code + ", Jenis: " + jenis + ", Nama: " + nama + ", Stok: " + stok;
-    }
-
-}
-
-class Bag {
-    private String code;
-    private String jenis;
-    private String nama;
-    private int stok;
-
-    public Bag(String code, String jenis, String nama, int stok) {
-        this.code = code;
-        this.jenis = jenis;
-        this.nama = nama;
-        this.stok = stok;
-    }
-
-    @Override
-    public String toString() {
-        return "Kode: " + code + ", Jenis: " + jenis + ", Nama: " + nama + ", Stok: " + stok;
-    }
-
-}
-
-class Inventory<T> implements Operation<T> {
-    private ArrayList<T> items;
-
-    public Inventory() {
-        items = new ArrayList<>();
-    }
-
-    @Override
-    public void add(T item) {
-        items.add(item);
-    }
-
-    @Override
-    public void remove(String code) {
-        Iterator<T> iterator = items.iterator();
-        while (iterator.hasNext()) {
-            T item = iterator.next();
-        }
-    }
-
-    @Override
-    public void edit(String code, T newItem) {
-    }
-
-    @Override
-    public void display() {
-        for (T item : items) {
-            System.out.println(item);
-        }
-    }
-}
+import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main (String[] args) {
+        Scanner in = new Scanner (System.in);
+        Queue<String> antrian = new LinkedList<>();
+    while (true) {
+        System.out.println("1. Input tugas");
+        System.out.println("2. Deadline Terdekat");
+        System.out.println("3. Hapus Tugas");
+        System.out.println("4. Tampilkan Tugas");
+        System.out.println("5. Exit");
 
-        Inventory<ATK> atkInventory = new Inventory<>();
-        atkInventory.add(new ATK("A001", "Pulpen", "Snowman Board Marker", 100));
-        atkInventory.add(new ATK("A002", "Pensil", "Faber Castell 2B", 50));
+        String pilihan = in.nextLine();
+
+                switch (pilihan) {
+                    
+                    case "1":
+                    
+                    System.out.println("Input Tugas :");
+                    String mataKuliah = in.nextLine();
+                    System.out.println("Nama Tugas :");
+                    String namaTugas = in.nextLine();
+                    System.out.println("Deadline :");
+                    String deadline = in.nextLine();
+                    antrian.add(mataKuliah + namaTugas + deadline);
+                    break;
+
+                    case "2":
+                    
+                        if (!antrian.isEmpty()) {
+                            System.out.println("Deadline Terdekat : "+ antrian.peek());
+                        } else {
+                            System.out.println("Tidak ada tugas");
+                        }
+                        break;
+                        
+                    case "3":
+                        
+                       if (!antrian.isEmpty()) {
+                        System.out.println("Sudah selesai "+ antrian.remove());
+                       } else {
+                        System.out.println("Sudah selesai ");
+                       }break;
+
+                    case "4":
+                       for (String tugas : antrian) {
+                        System.out.println(tugas);
+                       }break;
+                    
+                    case "5":
+                       System.out.println("Semangat!!!");
+                       System.exit(0);
+                       break;
+                    default:
+                    System.out.println("Pilih angka lain :");
+                    break;
 
 
-        Inventory<Bag> bagInventory = new Inventory<>();
-        bagInventory.add(new Bag("C001", "Tempat Pensil", "Kotak Pensil Plastik", 30));
-        bagInventory.add(new Bag("C002", "Tas", "Tas Sekolah Anak", 20));
-
-        System.out.println("Data ATK:");
-        atkInventory.display();
-
-        System.out.println("\nData Bag:");
-        bagInventory.display();
+                }
+    }
     }
 }
